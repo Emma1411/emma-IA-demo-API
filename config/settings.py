@@ -9,7 +9,10 @@ class Settings(BaseSettings):
     api_key_demo: str = ""
 
     # Liste des domaines autorisés à appeler l'API
-    allowed_origins: list[str] = ["http://localhost:5173"]
+    allowed_origins: list[str] = [
+        "http://localhost:5173",
+        "https://emma-ia-demo-front.vercel.app",
+    ]
 
     # Limite de requêtes pour le endpoint de démonstration
     rate_limit_demo: str = "10/minute"

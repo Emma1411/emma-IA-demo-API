@@ -8,11 +8,9 @@ class Settings(BaseSettings):
     # Clé API utilisée uniquement côté serveur
     api_key_demo: str = ""
 
-    # Liste des domaines autorisés à appeler l'API
-    allowed_origins: list[str] = [
-        "http://localhost:5173",
-        "https://emma-ia-demo-front.vercel.app",
-    ]
+    allowed_origins_str: str = (
+        "http://localhost:5173,https://emma-ia-demo-front.vercel.app"
+    )
 
     # Limite de requêtes pour le endpoint de démonstration
     rate_limit_demo: str = "25/minute"
@@ -25,6 +23,14 @@ class Settings(BaseSettings):
         env_file=".env",
         env_file_encoding="utf-8",
     )
+
+    @property
+    def allowed_origins(self) -> list[str]:
+        return [
+            origine.strip()
+            for origine in self.allowed_origins_str.split(",")
+            if origine.strip()
+        ]
 
 
 # Charge la configuration de l'application

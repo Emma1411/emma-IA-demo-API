@@ -1,8 +1,13 @@
 from slowapi import Limiter
-from slowapi.util import get_remote_address
+from starlette.requests import Request
 
 
-# Limite les requêtes en fonction de l'adresse IP du client
-# Cette limite protège le backend démo
-# Emma IA applique également sa propre limite en aval
-limiter = Limiter(key_func=get_remote_address)
+def obtenir_ip_reelle(request: Request) -> str:
+
+    forwarded = request.headers.get("x-forwarded-for")
+    if forwarded:
+        return forwarded.split(",")[0].strip()
+    return request.client.host if request.client else "inconnu"
+
+
+limiter = Limiter(key_func=obtenir_ip_reelle)

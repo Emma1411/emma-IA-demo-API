@@ -15,7 +15,7 @@ class Settings(BaseSettings):
     ]
 
     # Limite de requêtes pour le endpoint de démonstration
-    rate_limit_demo: str = "10/minute"
+    rate_limit_demo: str = "25/minute"
 
     # Temps maximum d'attente lors d'un appel vers Emma IA
     emma_timeout_secondes: float = 30.0

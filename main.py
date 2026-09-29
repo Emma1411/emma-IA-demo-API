@@ -1,12 +1,8 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
-from slowapi import _rate_limit_exceeded_handler
-from slowapi.errors import RateLimitExceeded
-from config.settings import settings
 from controllers.chat_controller import router as chat_router
 from controllers.health_controller import router as health_router
 from middlewares.cors import appliquer_cors
-from middlewares.rate_limit import limiter
 from utils.logger import configurer_logging
 
 
@@ -28,16 +24,6 @@ app = FastAPI(
     docs_url="/api/docs",
     redoc_url="/api/redoc",
     lifespan=lifespan,
-)
-
-
-# Configure le rate limiting global de l'application
-app.state.limiter = limiter
-
-# Retourne automatiquement une réponse HTTP 429 lorsque la limite est dépassée
-app.add_exception_handler(
-    RateLimitExceeded,
-    _rate_limit_exceeded_handler,
 )
 
 
